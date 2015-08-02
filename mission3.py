@@ -68,7 +68,7 @@ def TOTP(K, digits=10, timeref = 0, timestep = 30):
 
 data = { "github_url": "http://github.com/yodalee/HDEchallenge", "contact_email": "lc85301@gmail.com" }
 
-passwd = TOTP(shared_secret, 10, T0, timestep) 
+passwd = TOTP(shared_secret, 10, T0, timestep).zfill(10) 
 
 h = httplib2.Http()
 h.add_credentials( userid, passwd )
