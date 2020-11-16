@@ -72,4 +72,4 @@ data = { "github_url": "https://gist.github.com/hennge/b859bd12e7a7fb418141", "c
 
 passwd = TOTP(shared_secret, 10, T0, timestep).zfill(10) 
 resp = requests.post(root, auth=HTTPBasicAuth(userid, passwd), data=json.dumps(data))
-print(resp.json)
+print(resp.json())
