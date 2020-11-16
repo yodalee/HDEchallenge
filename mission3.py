@@ -24,7 +24,7 @@
 #
 #######################################################################
 
-import httplib2
+import requests
 import hmac
 import hashlib
 import time
@@ -32,10 +32,12 @@ import sys
 import struct
 import json
 
-root = "http://hdegip.appspot.com/challenge/003/endpoint"
+from requests.auth import HTTPBasicAuth
+
+root = "https://api.challenge.hennge.com/challenges/003"
 content_type = "application/json"
 userid = "lc85301@gmail.com"
-secret_suffix = "HDECHALLENGE003"
+secret_suffix = "HENNGECHALLENGE003"
 shared_secret = userid+secret_suffix
 
 timestep = 30
@@ -66,13 +68,8 @@ def TOTP(K, digits=10, timeref = 0, timestep = 30):
     C = int ( time.time() - timeref ) // timestep
     return HOTP(K, C, digits = digits)
 
-data = { "github_url": "http://github.com/yodalee/HDEchallenge", "contact_email": "lc85301@gmail.com" }
+data = { "github_url": "https://gist.github.com/hennge/b859bd12e7a7fb418141", "contact_email": "lc85301@gmail.com" }
 
 passwd = TOTP(shared_secret, 10, T0, timestep).zfill(10) 
-
-h = httplib2.Http()
-h.add_credentials( userid, passwd )
-header = {"content-type": "application/json"}
-resp, content = h.request(root, "POST", headers = header, body = json.dumps(data))
-print(resp)
-print(content)
+resp = requests.post(root, auth=HTTPBasicAuth(userid, passwd), data=json.dumps(data))
+print(resp.json)
