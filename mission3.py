@@ -68,7 +68,11 @@ def TOTP(K, digits=10, timeref = 0, timestep = 30):
     C = int ( time.time() - timeref ) // timestep
     return HOTP(K, C, digits = digits)
 
-data = { "github_url": "https://gist.github.com/hennge/b859bd12e7a7fb418141", "contact_email": "lc85301@gmail.com" }
+data =  {
+    "github_url": "https://gist.github.com/hennge/b859bd12e7a7fb418141",
+    "contact_email": "lc85301@gmail.com",
+    "solution_language": "python"
+}
 
 passwd = TOTP(shared_secret, 10, T0, timestep).zfill(10) 
 resp = requests.post(root, auth=HTTPBasicAuth(userid, passwd), data=json.dumps(data))
